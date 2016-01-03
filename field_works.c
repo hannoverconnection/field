@@ -40,14 +40,14 @@ void init_last_changed_position(uint8_t *field , int number_of_elements, int ele
 void update_field( uint8_t *field , int number_of_elements, int elements_of_a_row, struct arrow_position* last_position)
 {
 
-    int x_max = elements_of_a_row + 1;
-    int y_max = (number_of_elements / elements_of_a_row) + 1;
+    int x_max = elements_of_a_row;
+    int y_max = (number_of_elements / elements_of_a_row);
 
-    int x_new;
-    int y_new;
+    int x_new = 1;
+    int y_new = 1;
 
-    int x_old = last_position->x;
-    int y_old = last_position->y;
+    int x_old = last_position->x +1; //because of fucking c is having a element 0.
+    int y_old = last_position->y +1; //because of fucking c is having a element 0.
     int8_t dir_old = *(field + ((elements_of_a_row * last_position->y) + last_position->x));
     int8_t dir_new_field;
 
@@ -70,6 +70,23 @@ void update_field( uint8_t *field , int number_of_elements, int elements_of_a_ro
         x_new = x_old -1;
         break;
     }
+
+    if(x_new < 1 || x_new > x_max)
+    {
+        //printf("X_Range ERROR. new_x = %d\n", x_new);
+        x_new = x_old;
+        y_new = y_old;
+        //getchar();
+    }
+
+    if(y_new < 1 || y_new > y_max)
+    {
+        //printf("Y_Range ERROR. new_y = %d\n", y_new);
+        x_new = x_old;
+        y_new = y_old;
+        //getchar();
+    }
+
 
     // Determin the direction of the new arrow
     if(((elements_of_a_row * (y_new-1)) + (x_new-1)) < 0 || ((elements_of_a_row * (y_new-1)) + (x_new-1)) > number_of_elements )
@@ -94,6 +111,7 @@ void update_field( uint8_t *field , int number_of_elements, int elements_of_a_ro
             break;
         default:
             printf("Going to another dimesion. Run!");
+            getchar();
     }
 
     // Check for overruns
