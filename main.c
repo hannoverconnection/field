@@ -4,9 +4,9 @@
 #include <unistd.h>
 #include <SDL/SDL.h>
 
-#include "observer.h"
-#include "field_works.h"
 
+#include "field_works.h"
+#include "observer.h"
 
 #ifdef __cplusplus
     #include <cstdlib>
@@ -21,11 +21,8 @@ int main ( int argc, char** argv )
 {
     /*****************Init the field**************************/
     /***************** GLOBAL VARIABLES **********************/
-        uint8_t field[40][40];
-        struct arrow_position last_changed_position;
         uint32_t iterations = 0;
-
-        field_of_arrows field_v2;
+        field_of_arrows field;
 
     /***************** PROGRAMM CODE *************************/
     /***************** INIT PHASE ****************************/
@@ -33,12 +30,12 @@ int main ( int argc, char** argv )
         printf("Press enter to continue.\n");
         getchar();
 
-        init_field( field , sizeof(field));
-        init_field_v2(field_v2);
-        init_last_changed_position(field , sizeof(field) , sizeof(field[0]), &last_changed_position);
+
+        init_field(&field);
+
     /***************** PROGRAM PHASE**************************/
     clear_screen();
-    print_fields( field , sizeof(field) , sizeof(field[0]) );
+
     /*********************************************************/
 
     // initialize SDL video
@@ -68,18 +65,6 @@ int main ( int argc, char** argv )
         return 1;
     }
 
-    // centre the bitmap on screen
-    SDL_Rect dstrect;
-    dstrect.x = 0;
-    dstrect.y = 0;
-    dstrect.w = bmp_right->w;
-    dstrect.h = bmp_right->h;
-
-    SDL_Rect src;
-    src.x = 0;
-    src.y = 0;
-    src.w = bmp_right->w;
-    src.h = bmp_right->h;
 
     // program main loop
     bool done = false;
@@ -89,9 +74,7 @@ int main ( int argc, char** argv )
         clear_screen();
         iterations++;
         printf("Iterationcounter: %d\n", iterations);
-        update_field( field , sizeof(field) , sizeof(field[0]), &last_changed_position);
-        //update_field_v2(field_v2);
-        print_fields( field , sizeof(field) , sizeof(field[0]) );
+        update_field(&field);
     }
 
         // message processing loop
@@ -120,7 +103,7 @@ int main ( int argc, char** argv )
         SDL_FillRect(screen, 0, SDL_MapRGB(screen->format, 255, 255, 255));
         // DRAWING STARTS HERE
 
-        munch_the_field(screen,field , sizeof(field) , sizeof(field[0]));
+        munch_the_field(screen, &field);
 
         // DRAWING ENDS HERE
 

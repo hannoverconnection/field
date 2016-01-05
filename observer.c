@@ -9,26 +9,10 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <SDL/SDL.h>
+#include "field_works.h"
 #include "observer.h"
 
 
-
-void print_fields( uint8_t *field , int number_of_elements, int elements_of_a_row )
-{
-
-    int index;
-    int jdex;
-
-
-    for( index = 0; index < (number_of_elements / elements_of_a_row); index++){
-        for( jdex = 0; jdex < elements_of_a_row; jdex++){
-            printf( " %d  ", *field);
-            field++;
-            }
-    printf( "\n\n" );
-    }
-
-}
 
 
 void clear_screen(void)
@@ -37,7 +21,7 @@ void clear_screen(void)
 }
 
 
-void munch_the_field(SDL_Surface* screen,  uint8_t *field , int number_of_elements, int elements_of_a_row)
+void munch_the_field(SDL_Surface* screen, field_of_arrows* field)
 {
 
     int index;
@@ -77,15 +61,15 @@ void munch_the_field(SDL_Surface* screen,  uint8_t *field , int number_of_elemen
     src.y = 0;
     src.w = bmp_right->w;
     src.h = bmp_right->h;
-    for( index = 0; index < (number_of_elements / elements_of_a_row); index++){
-        for( jdex = 0; jdex < elements_of_a_row; jdex++){
+    for( index = 0; index < field->max_y; index++){
+        for( jdex = 0; jdex < field->max_x; jdex++){
             //printf( " %d  ", *field);
-            field++;
+
 
             dstrect.x = jdex * 16;
             dstrect.y = index *16;
             // draw bitmap
-            dir = *field;
+            dir = field->field[jdex][index];
 
             switch(dir)
                 {

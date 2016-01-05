@@ -5,11 +5,6 @@
 
 /*******************Declarations*****************************/
 
-struct arrow_position
-{
-    int x;
-    int y;
-};
 
 typedef struct field {
     uint8_t field[40][40];
@@ -18,10 +13,6 @@ typedef struct field {
 } field_of_arrows;
 
 /*******************Function_Prototypes**********************/
-void init_field(uint8_t *field , int number_of_elements);
-void init_last_changed_position(uint8_t *field , int number_of_elements, int elements_of_a_row, struct arrow_position* point);
-void update_field( uint8_t *field , int number_of_elements, int elements_of_a_row, struct arrow_position* last_position);
-
-void init_field_v2(field_of_arrows field);
-void update_field_v2(field_of_arrows field);
+void init_field(field_of_arrows* field);
+void update_field(field_of_arrows* field);
 #endif // FIELD_WORKS_H_INCLUDED

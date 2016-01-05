@@ -4,9 +4,9 @@
 
 
 /*******************FUNCTION_PROTOTYPS****************/
-void print_fields( uint8_t *field , int number_of_elements, int elements_of_a_row );
-void munch_the_field(SDL_Surface* screen,  uint8_t *field , int number_of_elements, int elements_of_a_row);
-void clear_screen(void);
 
+
+void clear_screen(void);
+void munch_the_field(SDL_Surface* screen, field_of_arrows* field);
 
 #endif // OBSERVER2_H_INCLUDED
