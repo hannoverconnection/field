@@ -3,5 +3,6 @@
 # except...
 !*.c
 !*.h
+!*.bmp
 !.gitignore
 !README
