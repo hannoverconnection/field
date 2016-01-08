@@ -24,8 +24,7 @@ void clear_screen(void)
 void munch_the_field(SDL_Surface* screen, field_of_arrows* field)
 {
 
-    int index;
-    int jdex;
+    uint32_t x_index, y_index;
     uint8_t dir = 0;
 
 
@@ -61,15 +60,15 @@ void munch_the_field(SDL_Surface* screen, field_of_arrows* field)
     src.y = 0;
     src.w = bmp_right->w;
     src.h = bmp_right->h;
-    for( index = 0; index < field->max_y; index++){
-        for( jdex = 0; jdex < field->max_x; jdex++){
+    for( y_index = 0; y_index < field->max_y; y_index++){
+        for( x_index = 0; x_index < field->max_x; x_index++){
             //printf( " %d  ", *field);
 
 
-            dstrect.x = jdex * 16;
-            dstrect.y = index *16;
+            dstrect.x = x_index * 16;
+            dstrect.y = y_index * 16;
             // draw bitmap
-            dir = field->field[jdex][index];
+            dir = field->field[y_index][x_index];
 
             switch(dir)
                 {

@@ -7,7 +7,7 @@
 
 
 typedef struct field {
-    uint8_t field[40][40];
+    uint8_t field[30][40];
     uint32_t last_changed_x, last_changed_y;
     uint32_t max_x, max_y;
 } field_of_arrows;

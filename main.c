@@ -49,7 +49,7 @@ int main ( int argc, char** argv )
     atexit(SDL_Quit);
 
     // create a new window
-    SDL_Surface* screen = SDL_SetVideoMode(1000, 800, 16,
+    SDL_Surface* screen = SDL_SetVideoMode(640, 480, 16,
                                            SDL_HWSURFACE|SDL_DOUBLEBUF);
     if ( !screen )
     {

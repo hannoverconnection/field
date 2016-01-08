@@ -22,7 +22,6 @@ void init_field(field_of_arrows* str_field)
     // field with random values.
     uint32_t index;
     uint8_t* ptr_x = str_field->field;
-    *ptr_x = 1;
 
     for(index = 0; index < sizeof(str_field->field); index++)
     {
@@ -40,15 +39,15 @@ void init_field(field_of_arrows* str_field)
 void update_field(field_of_arrows* field)
 {
 
-    int x_max = field->max_x;
-    int y_max = field->max_y;
+    uint32_t x_max = field->max_x;
+    uint32_t y_max = field->max_y;
 
-    int x_new = 0;
-    int y_new = 0;
+    uint32_t x_new = 0;
+    uint32_t y_new = 0;
 
-    int x_old = field->last_changed_x;
-    int y_old = field->last_changed_y;
-    int8_t dir_old = field->field[x_old-1][y_old-1];
+    uint32_t x_old = field->last_changed_x;
+    uint32_t y_old = field->last_changed_y;
+    int8_t dir_old = field->field[y_old-1][x_old-1];
     int8_t dir_new_field;
 
     switch(dir_old)
@@ -120,6 +119,6 @@ void update_field(field_of_arrows* field)
     field->last_changed_y = y_new;
 
     // Rotate the new arrow
-    field->field[x_new -1][y_new -1] = rand(time(NULL)) % 4;
+    field->field[y_new -1][x_new -1] = rand(time(NULL)) % 4;
 }
 
