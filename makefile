@@ -5,19 +5,15 @@ CFLAGS = -I/usr/include/SDL -D_GNU_SOURCE=1 -D_REENTRANT -Wall -g
 BINDIR = $(DESTDIR)/usr/bin
 NAME = field
 
-field: observer.o field_works.o main.o
+
+field: $(OBJECTS)
 	$(CC) -o $(NAME) $(OBJECTS) $(LIBS)
 
-field_works.o: field_works.c
-	$(CC) $(CFLAGS) -c field_works.c -o field_works.o
-
-observer.o: observer.c
-	$(CC) $(CFLAGS) -c observer.c -o observer.o
-
-main.o: main.c
-	$(CC) $(CFLAGS) -c main.c -o main.o
+%.o: %.c
+	$(CC) $(CFLAGS) -c $<
 
 clean:
 	rm *.o
+	rm field
 
 
