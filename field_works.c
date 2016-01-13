@@ -42,10 +42,86 @@ void init_field(field_of_arrows* str_field)
 void update_field(field_of_arrows* field)
 {
 
-    uint8_t random_dir;
-    random_dir = rand() % 4;
-    //Kev, Hilfe!!!
-    field->field[0][0] = random_dir;
+    uint32_t x_max = field->max_x;
+    uint32_t y_max = field->max_y;
 
+    uint32_t x_new = 0;
+    uint32_t y_new = 0;
+
+    uint32_t x_old = field->last_changed_x;
+    uint32_t y_old = field->last_changed_y;
+    int8_t dir_old = field->field[y_old-1][x_old-1];
+    int8_t dir_new_field;
+
+    switch(dir_old)
+    {
+    case 0:
+        y_new = y_old - 1;
+        x_new = x_old;
+        break;
+   case 1:
+        y_new = y_old;
+        x_new = x_old +1;
+        break;
+    case 2:
+        y_new = y_old +1;
+        x_new = x_old;
+        break;
+    case 3:
+        y_new = y_old;
+        x_new = x_old -1;
+        break;
+    }
+
+    if(x_new < 1 || x_new > x_max)
+    {
+        //printf("X_Range ERROR. new_x = %d\n", x_new);
+        x_new = x_old;
+        y_new = y_old;
+        //getchar();
+    }
+
+    if(y_new < 1 || y_new > y_max)
+    {
+        //printf("Y_Range ERROR. new_y = %d\n", y_new);
+        x_new = x_old;
+        y_new = y_old;
+        //getchar();
+    }
+
+
+
+    //TODO: Algorithm the change the field
+    // Die Zeile darunter ist nur zum Testen ob das mit der Parameterübergabe klappt.
+    uint8_t rotation_dir;
+    switch(rand() % 2)
+    {
+        case 0:
+            rotation_dir = 1;
+            break;
+        case 1:
+            rotation_dir = -1;
+            break;
+        default:
+            printf("Going to another dimesion. Run!");
+            getchar();
+    }
+
+    // Check for overruns
+    if(dir_new_field + rotation_dir > 3)
+    {
+        dir_new_field = 0;
+    }
+    if(dir_new_field + rotation_dir < 0)
+    {
+        dir_new_field = 3;
+    }
+
+    // Save the new arrow position
+    field->last_changed_x = x_new;
+    field->last_changed_y = y_new;
+
+    // Rotate the new arrow
+    field->field[y_new -1][x_new -1] = rand() % 4;
 }
 
