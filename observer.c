@@ -3,7 +3,8 @@
 *   Contains all functions that are necessary to observe the evolution of the field
 *
 *   Function:
-*       print_field()
+*       clear_screen()
+*       munch_the_field()
 *
 *********************************************************************************************/
 #include <stdint.h>
@@ -11,8 +12,6 @@
 #include <SDL/SDL.h>
 #include "field_works.h"
 #include "observer.h"
-
-
 
 
 void clear_screen(void)
@@ -31,22 +30,18 @@ void munch_the_field(SDL_Surface* screen, field_of_arrows* field)
     SDL_Surface* bmp_right = SDL_LoadBMP("arrow_right.bmp");
     if (!bmp_right){
         printf("Unable to load bitmap: %s\n", SDL_GetError());
-        return 1;
     }
     SDL_Surface* bmp_left = SDL_LoadBMP("arrow_left.bmp");
     if (!bmp_left){
         printf("Unable to load bitmap: %s\n", SDL_GetError());
-        return 1;
     }
     SDL_Surface* bmp_up = SDL_LoadBMP("arrow_up.bmp");
     if (!bmp_up){
         printf("Unable to load bitmap: %s\n", SDL_GetError());
-        return 1;
     }
     SDL_Surface* bmp_down = SDL_LoadBMP("arrow_down.bmp");
     if (!bmp_down){
         printf("Unable to load bitmap: %s\n", SDL_GetError());
-        return 1;
     }
 
     SDL_Rect dstrect;
@@ -86,7 +81,6 @@ void munch_the_field(SDL_Surface* screen, field_of_arrows* field)
                     break;
                 default:
                     printf("Unexpected value found\n");
-                    return 1;
                 }
 
             }
