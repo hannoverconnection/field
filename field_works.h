@@ -7,12 +7,14 @@
 
 
 typedef struct field {
-    uint8_t field[30][40];
+    uint8_t *dyn_field;
     uint32_t last_changed_x, last_changed_y;
     uint32_t max_x, max_y;
 } field_of_arrows;
 
+
 /*******************Function_Prototypes**********************/
-void init_field(field_of_arrows* field);
+
 void update_field(field_of_arrows* field);
+void init_field(field_of_arrows* str_field, SDL_VideoInfo* monitor);
 #endif // FIELD_WORKS_H_INCLUDED

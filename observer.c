@@ -25,7 +25,8 @@ void munch_the_field(SDL_Surface* screen, field_of_arrows* field)
 
     uint32_t x_index, y_index;
     uint8_t dir = 0;
-
+    // Setting the background screen to a white color
+    SDL_FillRect(screen, 0, SDL_MapRGB(screen->format, 255, 255, 255));
 
     SDL_Surface* bmp_right = SDL_LoadBMP("arrow_right.bmp");
     if (!bmp_right){
@@ -63,7 +64,7 @@ void munch_the_field(SDL_Surface* screen, field_of_arrows* field)
             dstrect.x = x_index * 16;
             dstrect.y = y_index * 16;
             // draw bitmap
-            dir = field->field[y_index][x_index];
+            dir = *(field->dyn_field + y_index *field->max_x + x_index);
 
             switch(dir)
                 {
