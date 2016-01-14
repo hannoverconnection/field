@@ -43,10 +43,11 @@ int main( int argc, char** argv )
     atexit(SDL_Quit);
 
     // get the max monitor resolution
-    SDL_VideoInfo* monitor_settings = SDL_GetVideoInfo();
+
 
     // create a new window
     #ifdef FULLSCREEN
+    const SDL_VideoInfo* monitor_settings = SDL_GetVideoInfo();
     SDL_Surface* screen = SDL_SetVideoMode(monitor_settings->current_w, monitor_settings->current_h, 16,
                                            SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_FULLSCREEN);
     #else

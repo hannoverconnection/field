@@ -16,5 +16,5 @@ typedef struct field {
 /*******************Function_Prototypes**********************/
 
 void update_field(field_of_arrows* field);
-void init_field(field_of_arrows* str_field, SDL_VideoInfo* monitor);
+void init_field(field_of_arrows* str_field, SDL_Surface* monitor);
 #endif // FIELD_WORKS_H_INCLUDED

@@ -17,7 +17,7 @@
 #include "field_works.h"
 
 
-void init_field(field_of_arrows* str_field, SDL_VideoInfo* monitor)
+void init_field(field_of_arrows* str_field, SDL_Surface* monitor)
 {
     // Create a pointer to the field inside the struct
     // and use this one in the following loop to init the
@@ -26,11 +26,10 @@ void init_field(field_of_arrows* str_field, SDL_VideoInfo* monitor)
     uint8_t* ptr_x;
 
     // find out how many arrows are possible
-    str_field->max_x = monitor->current_w / 16;
-    str_field->max_y = monitor->current_h /16;
+    str_field->max_x = monitor->w / 16;
+    str_field->max_y = monitor->h /16;
 
     str_field->dyn_field = (uint8_t *) malloc(sizeof(uint8_t) * str_field->max_x * str_field->max_y);
-    int test = sizeof(str_field->dyn_field);
 
     ptr_x = str_field->dyn_field;
 
@@ -60,6 +59,8 @@ void update_field(field_of_arrows* field)
     random_dir = rand() % 4;
     //Kev, Hilfe!!!
     *((field->dyn_field) + index) = random_dir;
+    field->last_changed_x = index % field->max_x;
+    field->last_changed_y = index / field->max_y;
 
 }
 
