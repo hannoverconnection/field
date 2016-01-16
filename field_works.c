@@ -50,7 +50,7 @@ void update_field(field_of_arrows* field)
 
     uint8_t random_dir;
     static uint32_t index = 0;
-    index++;
+
     if(index >= (field->max_x*field->max_y))
     {
         index = 0;
@@ -59,8 +59,8 @@ void update_field(field_of_arrows* field)
     random_dir = rand() % 4;
     //Kev, Hilfe!!!
     *((field->dyn_field) + index) = random_dir;
-    field->last_changed_x = index % field->max_x;
-    field->last_changed_y = index / field->max_y;
-
+    field->last_changed_x = (index % field->max_x)+1;
+    field->last_changed_y = (index / field->max_x) +1;
+    index++;
 }
 

@@ -19,7 +19,7 @@
 /***********************************************************/
 /**             Configuration of the software             **/
 
-//#define FULLSCREEN
+#define FULLSCREEN
 
 
 
@@ -117,13 +117,14 @@ int main( int argc, char** argv )
         // at struct field to know what need to be drawn. The drawing
         // will be included in the first argument the screen.
         munch_the_field(screen, &field);
+        plot_history(screen, &field);
 
         // finally, update the screen
         SDL_UpdateRect(screen, 0, 0, 0, 0);
 
         // To make it enjoyable 100 ms as a delay between each updated looks
         // like a good solution
-        SDL_Delay(100);
+        SDL_Delay(10);
     } // end main loop
     // free the dynamic reserved memory that is no more needed.
     free(field.dyn_field);
