@@ -16,27 +16,21 @@
 #endif
 
 
+/***********************************************************/
+/**             Configuration of the software             **/
 
-int main ( int argc, char** argv )
+#define FULLSCREEN
+
+
+
+
+int main( int argc, char** argv )
 {
-    /*****************Init the field**************************/
+
     /***************** GLOBAL VARIABLES **********************/
         uint32_t iterations = 0;
         field_of_arrows field;
 
-    /***************** PROGRAMM CODE *************************/
-    /***************** INIT PHASE ****************************/
-        printf("Field(s) starting screen!\n");
-        printf("Press enter to continue.\n");
-        getchar();
-
-
-        init_field(&field);
-
-    /***************** PROGRAM PHASE**************************/
-    clear_screen();
-
-    /*********************************************************/
 
     // initialize SDL video
     if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
@@ -48,14 +42,26 @@ int main ( int argc, char** argv )
     // make sure SDL cleans up before exit
     atexit(SDL_Quit);
 
+    // get the max monitor resolution
+
+
     // create a new window
-    SDL_Surface* screen = SDL_SetVideoMode(640, 480, 16,
+    #ifdef FULLSCREEN
+    const SDL_VideoInfo* monitor_settings = SDL_GetVideoInfo();
+    SDL_Surface* screen = SDL_SetVideoMode(monitor_settings->current_w, monitor_settings->current_h, 16,
+                                           SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_FULLSCREEN);
+    #else
+        SDL_Surface* screen = SDL_SetVideoMode(640, 480, 16,
                                            SDL_HWSURFACE|SDL_DOUBLEBUF);
+    #endif // FULLSCREEN
+
     if ( !screen )
     {
         printf("Unable to set 640x480 video: %s\n", SDL_GetError());
         return 1;
     }
+
+    init_field(&field, screen);
 
     // load an image
     SDL_Surface* bmp_right = SDL_LoadBMP("arrow_right.bmp");
@@ -70,12 +76,7 @@ int main ( int argc, char** argv )
     bool done = false;
     while (!done)
     {
-    {   /************field work*****************************/
-        clear_screen();
-        iterations++;
-        printf("Iterationcounter: %d\n", iterations);
-        update_field(&field);
-    }
+
 
         // message processing loop
         SDL_Event event;
@@ -99,26 +100,36 @@ int main ( int argc, char** argv )
                 }
             } // end switch
         } // end of message processing
-        // clear screen
-        SDL_FillRect(screen, 0, SDL_MapRGB(screen->format, 255, 255, 255));
-        // DRAWING STARTS HERE
 
+
+        // Clear the console window and write the actual iteration step
+        // to the consol window. Can disabled in a later version.
+        clear_screen();
+        iterations++;
+        printf("Iterationcounter: %d\n", iterations);
+
+        // Update the field of arrows with every new execution of the main
+        // loop. The command update field will find out which arrow next need
+        // to be turned.
+        update_field(&field);
+
+        // Observer starts to print the field. For this purpose will it look
+        // at struct field to know what need to be drawn. The drawing
+        // will be included in the first argument the screen.
         munch_the_field(screen, &field);
+        plot_history(screen, &field);
 
-        // DRAWING ENDS HERE
-
-        // finally, update the screen :)
+        // finally, update the screen
         SDL_UpdateRect(screen, 0, 0, 0, 0);
-        //SDL_Flip(screen);
 
-
-        SDL_Delay(100);
+        // To make it enjoyable 100 ms as a delay between each updated looks
+        // like a good solution
+        SDL_Delay(10);
     } // end main loop
+    // free the dynamic reserved memory that is no more needed.
+    free(field.dyn_field);
 
-    // free loaded bitmap
-    SDL_FreeSurface(bmp_right);
 
-    // all is well ;)
     printf("Exited cleanly\n");
     return 0;
 }

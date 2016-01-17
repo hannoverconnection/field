@@ -8,6 +8,7 @@
 *       update_field
 *
 *********************************************************************************************/
+#include <SDL/SDL.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,31 +17,37 @@
 #include "field_works.h"
 
 
-void init_field(field_of_arrows* str_field)
+void init_field(field_of_arrows* str_field, SDL_Surface* monitor)
 {
     // Create a pointer to the field inside the struct
     // and use this one in the following loop to init the
     // field with random values.
     uint32_t index;
     uint8_t* ptr_x;
-    ptr_x = (uint8_t *) str_field->field;  //ohne das Typecast bekomme ich eine Warnung.
 
-    for(index = 0; index < sizeof(str_field->field); index++)
+    // find out how many arrows are possible
+    str_field->max_x = monitor->w / 16;
+    str_field->max_y = monitor->h /16;
+
+    str_field->dyn_field = (uint8_t *) malloc(sizeof(uint8_t) * str_field->max_x * str_field->max_y);
+
+    ptr_x = str_field->dyn_field;
+
+    for(index = 0; index < (str_field->max_x * str_field->max_y); index++)
     {
         *ptr_x = rand() % 4;
         ptr_x++;
 
     }
 
-    str_field->max_x = sizeof(str_field->field[0]);
-    str_field->max_y = sizeof(str_field->field) / str_field->max_x;
-
     str_field->last_changed_x = (rand() % str_field->max_x) + 1;
     str_field->last_changed_y = (rand() % str_field->max_y) + 1;
 }
 
+
 void update_field(field_of_arrows* field)
 {
+
 
     uint32_t x_max = field->max_x;
     uint32_t y_max = field->max_y;
@@ -50,7 +57,7 @@ void update_field(field_of_arrows* field)
 
     uint32_t x_old = field->last_changed_x;
     uint32_t y_old = field->last_changed_y;
-    int8_t dir_old = field->field[y_old-1][x_old-1];
+    int8_t dir_old = *(field->dyn_field + ((y_old -1) * field->max_x) + (x_old-1));
     int8_t dir_new_field;
 
     switch(dir_old)
@@ -122,6 +129,7 @@ void update_field(field_of_arrows* field)
     field->last_changed_y = y_new;
 
     // Rotate the new arrow
-    field->field[y_new -1][x_new -1] = rand() % 4;
+    *(field->dyn_field + ((y_new -1) * field->max_x) + (x_new-1)) = rand() % 4;
+
 }
 
