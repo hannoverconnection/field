@@ -124,8 +124,6 @@ void plot_history(SDL_Surface* screen, field_of_arrows* field)
     // function is called for the first time.
     if(first_time == 1)
     {
-        int a = sizeof(history);
-        int b = sizeof(history[0]);
         for(index = 0; index < (sizeof(history)/sizeof(history[0])); index++)
         {
             history[index].x = field->last_changed_x;
