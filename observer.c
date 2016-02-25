@@ -124,8 +124,6 @@ void plot_history(SDL_Surface* screen, field_of_arrows* field)
     // function is called for the first time.
     if(first_time == 1)
     {
-        int a = sizeof(history);
-        int b = sizeof(history[0]);
         for(index = 0; index < (sizeof(history)/sizeof(history[0])); index++)
         {
             history[index].x = field->last_changed_x;
@@ -205,7 +203,7 @@ void plot_history(SDL_Surface* screen, field_of_arrows* field)
     // positions. This means that if a postion it stored two times inside the history than
     // the newer change will overright the older one. New changes shall be printed more bright
     // red. The background will fade out the older the history value it.
-    for(index = ((sizeof(history)/sizeof(history[0]))-1); index > 0; index--)
+    for(index = ((sizeof(history)/sizeof(history[0]))-1); index >=0; index--)
     {
         // First of all the position is calculated where the history value has to placed in the
         // surface

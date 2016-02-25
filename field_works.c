@@ -48,7 +48,6 @@ void init_field(field_of_arrows* str_field, SDL_Surface* monitor)
 void update_field(field_of_arrows* field)
 {
 
-
     uint32_t x_max = field->max_x;
     uint32_t y_max = field->max_y;
 
@@ -58,7 +57,8 @@ void update_field(field_of_arrows* field)
     uint32_t x_old = field->last_changed_x;
     uint32_t y_old = field->last_changed_y;
     int8_t dir_old = *(field->dyn_field + ((y_old -1) * field->max_x) + (x_old-1));
-    int8_t dir_new_field;
+    int8_t dir_new;
+    uint8_t rotation_dir;
 
     switch(dir_old)
     {
@@ -97,10 +97,8 @@ void update_field(field_of_arrows* field)
     }
 
 
-
-    //TODO: Algorithm the change the field
     // Die Zeile darunter ist nur zum Testen ob das mit der Parameterübergabe klappt.
-    uint8_t rotation_dir;
+
     switch(rand() % 2)
     {
         case 0:
@@ -114,14 +112,17 @@ void update_field(field_of_arrows* field)
             getchar();
     }
 
-    // Check for overruns
-    if(dir_new_field + rotation_dir > 3)
+
+    dir_new = *(field->dyn_field + ((y_new -1) * field->max_x) + (x_new-1)) + rotation_dir;
+    // Check for an overrun
+    if(dir_new < 0)
     {
-        dir_new_field = 0;
+        dir_new = 3;
     }
-    if(dir_new_field + rotation_dir < 0)
+
+    if(dir_new > 3)
     {
-        dir_new_field = 3;
+       dir_new = 0;
     }
 
     // Save the new arrow position
@@ -129,7 +130,7 @@ void update_field(field_of_arrows* field)
     field->last_changed_y = y_new;
 
     // Rotate the new arrow
-    *(field->dyn_field + ((y_new -1) * field->max_x) + (x_new-1)) = rand() % 4;
+    *(field->dyn_field + ((y_new -1) * field->max_x) + (x_new-1)) = dir_new;
 
 }
 

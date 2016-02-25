@@ -124,7 +124,7 @@ int main( int argc, char** argv )
 
         // To make it enjoyable 100 ms as a delay between each updated looks
         // like a good solution
-        SDL_Delay(10);
+        SDL_Delay(1);
     } // end main loop
     // free the dynamic reserved memory that is no more needed.
     free(field.dyn_field);
